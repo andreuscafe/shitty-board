@@ -29,7 +29,7 @@ export const useStore = create((set) => ({
       tags: []
     },
     "task-6": {
-      id: "task-5",
+      id: "task-6",
       content: "Subir a platino en el LoL",
       tags: []
     }
