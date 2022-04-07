@@ -5,12 +5,46 @@
   list-style: none;
 
   margin: 0 0 15px 0;
-  // &:not(:last-child) {
-  // }
 
   .itemContent {
     margin-bottom: 15px;
     line-height: 1.4;
+    position: relative;
+    color: blue;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    box-sizing: border-box;
+
+    .itemText {
+      display: block;
+      font-family: inherit;
+      font-size: inherit;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      resize: none;
+      border: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      line-height: inherit;
+      background-color: transparent;
+
+      white-space: pre-wrap;
+      word-break: break-word;
+      box-sizing: border-box;
+
+      &:focus {
+        outline-offset: 5px;
+      }
+    }
+
+    .itemContentSpace {
+      color: transparent;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      box-sizing: border-box;
+    }
   }
 
   .tagsWrapper {
