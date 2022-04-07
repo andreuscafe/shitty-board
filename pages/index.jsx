@@ -2,19 +2,27 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.scss";
 
-import { resetServerContext, DragDropContext } from "react-beautiful-dnd-next";
+import {
+  resetServerContext,
+  DragDropContext,
+  Droppable
+} from "react-beautiful-dnd-next";
 import { useEffect, useState } from "react";
 import Column from "../components/Column";
 import { useStore } from "../store";
 
 export default function Home() {
-  const { columns, setColumn } = useStore((state) => ({
-    columns: state.getColumns(),
-    setColumn: state.setColumn
-  }));
+  const { columns, setColumn, columnOrder, setColumnOrder } = useStore(
+    (state) => ({
+      columns: state.getColumns(),
+      setColumn: state.setColumn,
+      columnOrder: state.columnOrder,
+      setColumnOrder: state.setColumnOrder
+    })
+  );
 
   const dragEnd = (result) => {
-    const { destination, source, draggableId } = result;
+    const { destination, source, draggableId, type } = result;
 
     if (!destination) {
       return;
@@ -25,6 +33,14 @@ export default function Home() {
       destination.index === source.index
     ) {
       return;
+    }
+
+    if (type === "column") {
+      const newColumnOrder = Array.from(columnOrder);
+      newColumnOrder.splice(source.index, 1);
+      newColumnOrder.splice(destination.index, 0, draggableId);
+
+      return setColumnOrder(newColumnOrder);
     }
 
     const start = columns.find((column) => column.id === source.droppableId);
@@ -83,15 +99,29 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <div className={styles.columnsWrapper}>
-          {isBrowser && (
-            <DragDropContext onDragEnd={dragEnd}>
-              {columns.map((column, index) => (
-                <Column column={column} key={index} index={index} />
-              ))}
-            </DragDropContext>
-          )}
-        </div>
+        {isBrowser && (
+          <DragDropContext onDragEnd={dragEnd}>
+            <Droppable
+              droppableId="all-columns"
+              direction="horizontal"
+              type="column"
+            >
+              {(provided) => (
+                <div
+                  className={styles.columnsWrapper}
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {columns.map((column, index) => (
+                    <Column column={column} key={index} index={index} />
+                  ))}
+
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+        )}
       </main>
 
       {/* <footer className={styles.footer}></footer> */}

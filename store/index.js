@@ -88,5 +88,11 @@ export const useStore = create((set) => ({
         [column.id]: column
       }
     }));
+  },
+
+  setColumnOrder(columnOrder) {
+    set((state) => ({
+      columnOrder
+    }));
   }
 }));
