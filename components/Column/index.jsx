@@ -5,7 +5,14 @@ import Item from "../Item";
 import styles from "./Column.module.scss";
 
 const Column = ({ column, index }) => {
-  const tasks = useStore((state) => state.getColumnTasks(column.id));
+  const { tasks, addEmptyTask } = useStore((state) => ({
+    tasks: state.getColumnTasks(column.id),
+    addEmptyTask: state.addEmptyTask
+  }));
+
+  const handleAddTask = () => {
+    addEmptyTask(column.id);
+  };
 
   return (
     <Draggable draggableId={column.id} index={index}>
@@ -29,6 +36,13 @@ const Column = ({ column, index }) => {
                   <Item key={index} index={index} id={itemId} />
                 ))}
                 {provided.placeholder}
+                <button
+                  className={styles.addTaskButton}
+                  aria-label="Añadir una tarea"
+                  onClick={handleAddTask}
+                >
+                  Añadir una tarea
+                </button>
               </ul>
             )}
           </Droppable>

@@ -31,6 +31,7 @@ const Item = ({ index, id }) => {
               className={styles.itemText}
               defaultValue={task.content}
               onChange={onContentChange}
+              placeholder="¿Qué hay que hacer?"
             ></textarea>
           </pre>
           <div className={styles.tagsWrapper}>

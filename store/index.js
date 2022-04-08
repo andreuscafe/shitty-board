@@ -5,48 +5,17 @@ export const useStore = create(
   persist(
     (set) => ({
       // State
-      tasks: {
-        "task-1": {
-          id: "task-1",
-          content: "Hacer mi laburo real",
-          tags: []
-        },
-        "task-2": {
-          id: "task-2",
-          content: "Dejarme de joder con estas apps",
-          tags: []
-        },
-        "task-3": {
-          id: "task-3",
-          content: "Hacer más apps",
-          tags: []
-        },
-        "task-4": {
-          id: "task-4",
-          content: "Dejar el frontend y poner un puesto de panchuques",
-          tags: []
-        },
-        "task-5": {
-          id: "task-5",
-          content: "Salir a vivir la vida",
-          tags: []
-        },
-        "task-6": {
-          id: "task-6",
-          content: "Subir a platino en el LoL",
-          tags: []
-        }
-      },
+      tasks: {},
       columns: {
         "column-1": {
           id: "column-1",
           title: "Por hacer",
-          items: ["task-1", "task-2", "task-3"]
+          items: []
         },
         "column-2": {
           id: "column-2",
           title: "En progreso",
-          items: ["task-4"]
+          items: []
         },
         "column-3": {
           id: "column-3",
@@ -56,7 +25,7 @@ export const useStore = create(
         "column-4": {
           id: "column-4",
           title: "Archivado",
-          items: ["task-5", "task-6"]
+          items: []
         }
       },
       columnOrder: ["column-1", "column-2", "column-3", "column-4"],
@@ -76,13 +45,30 @@ export const useStore = create(
       getColumnTasks(columnId) {
         return this.columns[columnId].items;
       },
-      addTask(task) {
-        const taskId = `task-${this.tasks.length + 1}`;
-        this.tasks[taskId] = {
-          ...task,
-          id: taskId
-        };
-        this.columns[task.columnId].items.push(taskId);
+      addEmptyTask(columnId) {
+        set((state) => {
+          const taskId = `task-${Math.round(Math.random() * 10000000000)}`;
+
+          console.log(taskId);
+
+          return {
+            tasks: {
+              ...state.tasks,
+              [taskId]: {
+                id: taskId,
+                content: "",
+                tags: []
+              }
+            },
+            columns: {
+              ...state.columns,
+              [columnId]: {
+                ...state.columns[columnId],
+                items: [...state.columns[columnId].items, taskId]
+              }
+            }
+          };
+        });
       },
       setColumn(column) {
         set((state) => ({
@@ -103,6 +89,11 @@ export const useStore = create(
       setColumnOrder(columnOrder) {
         set((state) => ({
           columnOrder
+        }));
+      },
+      setNewTask(newTask) {
+        set((state) => ({
+          newTask
         }));
       }
     }),
