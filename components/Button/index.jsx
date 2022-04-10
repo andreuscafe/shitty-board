@@ -5,7 +5,7 @@ const Button = ({ children = "Button", ...props }) => {
     <button
       tabIndex={0}
       {...props}
-      className={styles.button}
+      className={`${styles.button} ${props.className || ""}`}
       aria-label={children}
     >
       {children}

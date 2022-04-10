@@ -82,10 +82,10 @@ export default function Board() {
     }
   };
 
-  const [isBrowser, setIsBrowser] = useState(false);
   const [isDragStarted, setIsDragStarted] = useState(false);
   const boardWrapperRef = useRef(null);
 
+  const [isBrowser, setIsBrowser] = useState(false);
   useEffect(() => {
     setIsBrowser(typeof window);
   }, []);

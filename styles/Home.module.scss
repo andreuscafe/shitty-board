@@ -1,27 +1,38 @@
 .main {
-  --background-image: url("/images/4.jpg");
+  // --background-image: url("/images/4.jpg");
 
   height: 100vh;
-  background-color: #999;
+  background-color: #333;
   background-image: var(--background-image);
+  // background-size: 100% 100%;
   background-size: cover;
   background-position: center;
+  // image-rendering: pixelated;
+  background-repeat: no-repeat;
 
   .container {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     height: 100%;
-    backdrop-filter: blur(100px);
+    backdrop-filter: blur(30px);
 
     .header {
       flex: 0 0 auto;
       display: flex;
       padding: 15px;
-      background-color: rgba(255, 255, 255, 0.5);
-      // color: #fff;
+      background-color: rgba(255, 255, 255, 0.7);
 
       .title {
         font-size: 1rem;
+      }
+
+      .boardsMenu {
+        display: flex;
+        gap: 15px;
+
+        .addButton {
+          opacity: 0.7;
+        }
       }
     }
   }
