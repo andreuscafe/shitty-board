@@ -1,0 +1,13 @@
+.button {
+  border: 0px;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+}

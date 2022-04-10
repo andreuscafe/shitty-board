@@ -5,7 +5,14 @@ export const useStore = create(
   persist(
     (set) => ({
       // State
-      tasks: {},
+      tasks: {
+        // 'task-1': {
+        //   id: 'task-1',
+        //   content: "",
+        //   tags: [],
+        //   timeCount: 0
+        // }
+      },
       columns: {
         "column-1": {
           id: "column-1",
@@ -29,6 +36,14 @@ export const useStore = create(
         }
       },
       columnOrder: ["column-1", "column-2", "column-3", "column-4"],
+      boards: {
+        "board-1": {
+          id: "board-1",
+          title: "Tareas",
+          columns: ["column-1", "column-2", "column-3", "column-4"]
+        }
+      },
+      boardOrder: ["board-1"],
 
       // Actions
       getColumns() {
@@ -94,6 +109,23 @@ export const useStore = create(
       setNewTask(newTask) {
         set((state) => ({
           newTask
+        }));
+      },
+      removeTask(taskId, columnId) {
+        set((state) => ({
+          tasks: {
+            ...state.tasks,
+            [taskId]: undefined
+          },
+          columns: {
+            ...state.columns,
+            [columnId]: {
+              ...state.columns[columnId],
+              items: state.columns[columnId].items.filter(
+                (item) => item !== taskId
+              )
+            }
+          }
         }));
       }
     }),

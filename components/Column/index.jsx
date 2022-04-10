@@ -25,27 +25,36 @@ const Column = ({ column, index }) => {
           <h2 className={styles.columnTitle} {...provided.dragHandleProps}>
             {column.title}
           </h2>
-          <Droppable key={index} droppableId={column.id} type="task">
-            {(provided) => (
-              <ul
-                ref={provided.innerRef}
-                className={styles.columnItemsList}
-                {...provided.droppableProps}
-              >
-                {tasks.map((itemId, index) => (
-                  <Item key={index} index={index} id={itemId} />
-                ))}
-                {provided.placeholder}
-                <button
-                  className={styles.addTaskButton}
-                  aria-label="Añadir una tarea"
-                  onClick={handleAddTask}
+          <div className={styles.columnItemsListWrapper}>
+            <Droppable key={index} droppableId={column.id} type="task">
+              {(provided) => (
+                <ul
+                  ref={provided.innerRef}
+                  className={styles.columnItemsList}
+                  {...provided.droppableProps}
                 >
-                  Añadir una tarea
-                </button>
-              </ul>
-            )}
-          </Droppable>
+                  {tasks.map((itemId, index) => (
+                    <Item
+                      key={index}
+                      index={index}
+                      id={itemId}
+                      columnId={column.id}
+                    />
+                  ))}
+                  {provided.placeholder}
+                </ul>
+              )}
+            </Droppable>
+          </div>
+          <div className={styles.actionsWrapper}>
+            <button
+              className={styles.addTaskButton}
+              aria-label="Añadir una tarea"
+              onClick={handleAddTask}
+            >
+              Añadir una tarea
+            </button>
+          </div>
         </div>
       )}
     </Draggable>

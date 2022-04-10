@@ -1,13 +1,13 @@
 .boardItem {
   background-color: #fff;
-  border-radius: 15px;
+  border-radius: 10px;
   padding: 15px;
   list-style: none;
+  box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.2);
 
   margin: 0 0 15px 0;
 
   .itemContent {
-    margin-bottom: 15px;
     line-height: 1.4;
     position: relative;
     color: blue;
@@ -48,6 +48,7 @@
   }
 
   .tagsWrapper {
+    margin-top: 15px;
     display: flex;
 
     .tag {
@@ -61,5 +62,12 @@
         margin-right: 0.5rem;
       }
     }
+  }
+
+  .contextMenuWrapper {
+    margin-top: 15px;
+    display: flex;
+
+    justify-content: flex-end;
   }
 }
