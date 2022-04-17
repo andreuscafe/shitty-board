@@ -10,6 +10,8 @@ const Column = ({ column, index }) => {
     addEmptyTask: state.addEmptyTask
   }));
 
+  // console.log(tasks);
+
   const handleAddTask = () => {
     addEmptyTask(column.id);
   };

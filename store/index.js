@@ -1,7 +1,7 @@
 import create from "zustand";
 import { persist } from "zustand/middleware";
 
-export const useStore = create(
+export const [useStore, api] = create(
   persist(
     (set) => ({
       // State
@@ -33,32 +33,100 @@ export const useStore = create(
           id: "column-4",
           title: "Archivado",
           items: []
+        },
+        "column-5": {
+          id: "column-5",
+          title: "Prueba",
+          items: []
+        },
+        "column-6": {
+          id: "column-6",
+          title: "De",
+          items: []
+        },
+        "column-7": {
+          id: "column-7",
+          title: "Columnas",
+          items: []
+        },
+        "column-8": {
+          id: "column-8",
+          title: "Archivado",
+          items: []
         }
       },
-      columnOrder: ["column-1", "column-2", "column-3", "column-4"],
       boards: {
         "board-1": {
           id: "board-1",
-          title: "Tareas",
-          columns: ["column-1", "column-2", "column-3", "column-4"]
+          title: "Hola",
+          columns: ["column-1", "column-2", "column-3", "column-4"],
+          columnsOrder: ["column-1", "column-2", "column-3", "column-4"]
+        },
+        "board-2": {
+          id: "board-2",
+          title: "Mundo",
+          columns: ["column-5", "column-6", "column-7", "column-8"],
+          columnsOrder: ["column-5", "column-6", "column-7", "column-8"]
         }
       },
-      boardOrder: ["board-1"],
+      currentBoard: "board-1",
+      boardsOrder: ["board-1", "board-2"],
 
       // Actions
-      getColumns() {
-        return this.columnOrder.map((columnId) => this.columns[columnId]);
+      setCurrentBoard: (id) => {
+        set((state) => ({
+          currentBoard: id
+        }));
       },
-      getAllTasks() {
-        return this.columnOrder.reduce((acc, columnId) => {
-          return [...acc, ...this.columns[columnId].items];
-        }, []);
+      getBoards: () => {
+        const state = api.getState();
+
+        return state.boardsOrder.map((boardId) => state.boards[boardId]);
+      },
+      getBoard: (id) => {
+        const state = api.getState();
+
+        return state.boards[id];
+      },
+      getBoardColumns(boardId) {
+        const state = api.getState();
+
+        return state.boards[boardId].columnsOrder.map(
+          (columnId) => state.columns[columnId]
+        );
       },
       getTask(id) {
-        return this.tasks[id];
+        const state = api.getState();
+        return state.tasks[id];
       },
       getColumnTasks(columnId) {
-        return this.columns[columnId].items;
+        const state = api.getState();
+        return state.columns[columnId].items;
+      },
+      getColumnsOrder(boardId) {
+        const state = api.getState();
+
+        return state.boards[boardId].columnsOrder;
+      },
+      setColumnsOrder(columnsOrder, boardId) {
+        console.log("SETTING COLUMNS ORDER");
+        set((state) => ({
+          boards: {
+            ...state.boards,
+            [boardId]: {
+              ...state.boards[boardId],
+              columnsOrder
+            }
+          }
+        }));
+      },
+      setColumn(column) {
+        set((state) => ({
+          columns: {
+            ...state.columns,
+            [column.id]: column
+          }
+        }));
       },
       addEmptyTask(columnId) {
         set((state) => {
@@ -85,25 +153,12 @@ export const useStore = create(
           };
         });
       },
-      setColumn(column) {
-        set((state) => ({
-          columns: {
-            ...state.columns,
-            [column.id]: column
-          }
-        }));
-      },
       setTask(task) {
         set((state) => ({
           tasks: {
             ...state.tasks,
             [task.id]: task
           }
-        }));
-      },
-      setColumnOrder(columnOrder) {
-        set((state) => ({
-          columnOrder
         }));
       },
       setNewTask(newTask) {

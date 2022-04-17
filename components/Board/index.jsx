@@ -9,13 +9,14 @@ import { useEffect, useRef, useState } from "react";
 import Column from "../Column";
 import { useStore } from "../../store";
 
-export default function Board() {
-  const { columns, setColumn, columnOrder, setColumnOrder } = useStore(
+export default function Board({ id }) {
+  const { board, columns, setColumn, columnOrder, setColumnsOrder } = useStore(
     (state) => ({
-      columns: state.getColumns(),
+      board: state.getBoard(id),
+      columns: state.getBoardColumns(id),
       setColumn: state.setColumn,
-      columnOrder: state.columnOrder,
-      setColumnOrder: state.setColumnOrder
+      columnOrder: state.getColumnsOrder(id),
+      setColumnsOrder: state.setColumnsOrder
     })
   );
 
@@ -38,7 +39,7 @@ export default function Board() {
       newColumnOrder.splice(source.index, 1);
       newColumnOrder.splice(destination.index, 0, draggableId);
 
-      return setColumnOrder(newColumnOrder);
+      return setColumnsOrder(newColumnOrder);
     }
 
     const start = columns.find((column) => column.id === source.droppableId);
