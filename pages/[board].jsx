@@ -2,36 +2,32 @@ import Head from "next/head";
 import styles from "../styles/Home.module.scss";
 
 import { resetServerContext } from "react-beautiful-dnd-next";
-// import Board from "../components/Board";
-import { getRandomPixels } from "../utils";
+import { useEffect } from "react";
 import NavigationBar from "../components/NavigationBar";
 import { useStore } from "../store";
-// import Header from "../components/Header";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 
-const Board = dynamic(() => import("../components/Board"));
-const Header = dynamic(() => import("../components/Header"));
+const Board = dynamic(() => import("../components/Board"), { ssr: false });
+const Header = dynamic(() => import("../components/Header"), { ssr: false });
 
 export default function Home() {
-  // const [pixels, setPixels] = useState("");
+  const { query } = useRouter();
 
-  const { currentBoard } = useStore((state) => ({
-    currentBoard: state.currentBoard
+  const { currentBoard, setCurrentBoard } = useStore((state) => ({
+    currentBoard: state.currentBoard,
+    setCurrentBoard: state.setCurrentBoard
   }));
 
-  // useEffect(() => {
-  //   setPixels(getRandomPixels(3, 2));
-  // }, []);
+  useEffect(() => {
+    setCurrentBoard(query.board);
+  }, [query.board, setCurrentBoard]);
 
   return (
     <main
       className={styles.main}
       style={{
-        // "--background-image": `url("/images/${Math.round(
-        //   Math.random() * 4 + 1
-        // )}.jpg")`
-        "--background-image": `url(https://source.unsplash.com/random/300x300/?skyline,sunset)`
-        // "--background-image": isBrowser && `url(${pixels})`
+        "--background-image": `url("/images/3.jpg")`
       }}
     >
       <Head>

@@ -39,7 +39,7 @@ export default function Board({ id }) {
       newColumnOrder.splice(source.index, 1);
       newColumnOrder.splice(destination.index, 0, draggableId);
 
-      return setColumnsOrder(newColumnOrder);
+      return setColumnsOrder(newColumnOrder, id);
     }
 
     const start = columns.find((column) => column.id === source.droppableId);
@@ -86,11 +86,6 @@ export default function Board({ id }) {
   const [isDragStarted, setIsDragStarted] = useState(false);
   const boardWrapperRef = useRef(null);
 
-  const [isBrowser, setIsBrowser] = useState(false);
-  useEffect(() => {
-    setIsBrowser(typeof window);
-  }, []);
-
   const handleDragStart = (e) => {
     if (
       e.target.dataset.dragBoard &&
@@ -108,46 +103,39 @@ export default function Board({ id }) {
 
   return (
     <>
-      {isBrowser && (
-        <div
-          className={styles.boardWrapper}
-          onMouseDown={handleDragStart}
-          onMouseMove={handleDragMove}
-          onMouseUp={() => {
-            if (isDragStarted) setIsDragStarted(false);
-          }}
-          ref={boardWrapperRef}
-          data-drag-board
-        >
-          <DragDropContext onDragEnd={dragEnd}>
-            <Droppable
-              droppableId="all-columns"
-              direction="horizontal"
-              type="column"
-            >
-              {(provided) => (
-                <div
-                  className={styles.columnsWrapper}
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  data-drag-board
-                >
-                  {columns.map((column, index) => (
-                    <Column column={column} key={index} index={index} />
-                  ))}
+      <div
+        className={styles.boardWrapper}
+        onMouseDown={handleDragStart}
+        onMouseMove={handleDragMove}
+        onMouseUp={() => {
+          if (isDragStarted) setIsDragStarted(false);
+        }}
+        ref={boardWrapperRef}
+        data-drag-board
+      >
+        <DragDropContext onDragEnd={dragEnd}>
+          <Droppable
+            droppableId="all-columns"
+            direction="horizontal"
+            type="column"
+          >
+            {(provided) => (
+              <div
+                className={styles.columnsWrapper}
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                data-drag-board
+              >
+                {columns.map((column, index) => (
+                  <Column column={column} key={index} index={index} />
+                ))}
 
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
-        </div>
-      )}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </div>
     </>
   );
 }
-
-// export async function getServerSideProps(context) {
-//   resetServerContext();
-//   return { props: { data: [] } };
-// }

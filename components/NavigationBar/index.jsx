@@ -1,8 +1,11 @@
 import styles from "./NavigationBar.module.scss";
 import Button from "../Button";
 import { useStore } from "../../store";
+import { useRouter } from "next/router";
 
 const NavigationBar = () => {
+  const { push } = useRouter();
+
   const { boards, setCurrentBoard } = useStore((state) => ({
     boards: state.getBoards(),
     setCurrentBoard: state.setCurrentBoard
@@ -10,15 +13,13 @@ const NavigationBar = () => {
 
   return (
     <nav className={styles.navigationBar}>
-      {/* <h1 className={styles.title}>Shitty Boards</h1> */}
       <div className={styles.boardsMenu}>
         {boards.map((board, index) => (
           <Button
             key={board.id}
             className={styles.boardButton}
             onClick={() => {
-              console.log(board.id);
-              setCurrentBoard(board.id);
+              push(`/${board.id}`);
             }}
           >
             {board.title}

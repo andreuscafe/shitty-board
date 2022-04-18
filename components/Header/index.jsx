@@ -9,7 +9,9 @@ const Header = () => {
 
   return (
     <header className={styles.header}>
-      <h1 className={styles.title}>{currentBoard.title}</h1>
+      <h1 className={styles.title}>
+        {currentBoard ? currentBoard.title : "Seleccione un tablero"}
+      </h1>
     </header>
   );
 };

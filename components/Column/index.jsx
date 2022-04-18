@@ -10,14 +10,12 @@ const Column = ({ column, index }) => {
     addEmptyTask: state.addEmptyTask
   }));
 
-  // console.log(tasks);
-
   const handleAddTask = () => {
     addEmptyTask(column.id);
   };
 
   return (
-    <Draggable draggableId={column.id} index={index}>
+    <Draggable draggableId={column.id} index={index} key={column.id}>
       {(provided) => (
         <div
           className={styles.column}

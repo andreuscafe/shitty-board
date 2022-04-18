@@ -74,8 +74,10 @@ export const [useStore, api] = create(
 
       // Actions
       setCurrentBoard: (id) => {
+        const state = api.getState();
+
         set((state) => ({
-          currentBoard: id
+          currentBoard: state.boardsOrder.includes(id) ? id : ""
         }));
       },
       getBoards: () => {
@@ -109,7 +111,6 @@ export const [useStore, api] = create(
         return state.boards[boardId].columnsOrder;
       },
       setColumnsOrder(columnsOrder, boardId) {
-        console.log("SETTING COLUMNS ORDER");
         set((state) => ({
           boards: {
             ...state.boards,
